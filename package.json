@@ -9,6 +9,8 @@
     "clean": "rm -rfv dist/",
     "build": "tsc",
     "test": "jest --coverage --verbose",
+    "docker-build": "DOCKER_BUILDKIT=1 docker build . -t $npm_package_name:$npm_package_version -t $npm_package_name:latest -t 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/$npm_package_name:$npm_package_version -t 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/$npm_package_name:latest",
+    "docker-push": "docker push 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/$npm_package_name:$npm_package_version",
     "ci": "npm run clean && npm run lint && npm run build && npm run test"
   },
   "author": "Josh Peak <neozenith.dev@gmail.com>",
@@ -39,6 +41,7 @@
     "express": "^4.17.1",
     "log4js": "^6.3.0",
     "mongoose": "^5.10.11",
+    "source-map-support": "^0.5.19",
     "throng": "^5.0.0"
   }
 }

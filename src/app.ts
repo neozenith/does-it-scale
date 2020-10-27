@@ -7,12 +7,12 @@ const port = process.env.WEBAPP_PORT ?? 3000;
 
 export default async function startupApp (id: number): Promise<void> {
   log4js.configure(log4jsConfig);
-  const logger = log4js.getLogger('app');
+  const logger = log4js.getLogger(`app.${id}`);
   logger.info(`Started worker ${id}`);
 
   app.use((req, res, next) => {
     const start = new Date();
-    const logger = log4js.getLogger(`api.${req.url}`);
+    const logger = log4js.getLogger(`api.${id}.${req.url}`);
     logger.debug(req.method.toUpperCase(), req.url);
     next();
     const finish = new Date();
@@ -24,7 +24,7 @@ export default async function startupApp (id: number): Promise<void> {
   });
 
   app.listen(port, () => {
-    logger.info(`Example app listening at http://localhost:${port}`);
+    logger.info(`listening at http://localhost:${port}`);
   });
 
   let exited = false;
