@@ -1,13 +1,17 @@
-import throng from 'throng'
-import app from './app'
+import throng from 'throng';
+import log4js from 'log4js';
+import log4jsConfig from './log4js.json';
+import app from './app';
 
-throng({ master, start: app })
+const concurrency = process.env.CONCURRENCY ?? 2;
+throng({ master, start: app, workers: concurrency });
 
-// This will only be called once
 function master () {
-  console.log('Started master')
+  log4js.configure(log4jsConfig);
+  const logger = log4js.getLogger('server');
+  logger.info('Started master');
 
   process.on('beforeExit', () => {
-    console.log('Master cleanup.')
-  })
+    logger.info('Master cleanup.');
+  });
 }

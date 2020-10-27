@@ -1,0 +1,15 @@
+{
+    "appenders": {
+        "default": {
+            "type": "console"
+        }
+    },
+    "categories": {
+        "default": {
+            "appenders": [
+                "default"
+            ],
+            "level": "all"
+        }
+    }
+}
