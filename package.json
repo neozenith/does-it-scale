@@ -10,6 +10,7 @@
     "build": "tsc",
     "test": "jest --coverage --verbose",
     "docker-build": "DOCKER_BUILDKIT=1 docker build . -t $npm_package_name:$npm_package_version -t $npm_package_name:latest -t 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/$npm_package_name:$npm_package_version -t 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/$npm_package_name:latest",
+    "docker-dev": "npm run docker-build && docker run --name $npm_package_name --rm -P $npm_package_name",
     "docker-push": "docker push 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/$npm_package_name:$npm_package_version",
     "ci": "npm run clean && npm run lint && npm run build && npm run test"
   },
