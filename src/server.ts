@@ -1,7 +1,7 @@
 import throng from 'throng'
-import worker from './app'
+import app from './app'
 
-throng({ master, worker, count: 4 })
+throng({ master, start: app })
 
 // This will only be called once
 function master () {

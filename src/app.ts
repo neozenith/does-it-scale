@@ -1,6 +1,5 @@
-import throng from 'throng'
 
-export default function worker (id: number, disconnect: throng.ProcessCallback) {
+export default async function startupApp (id: number): Promise<void> {
   let exited = false
 
   console.log(`Started worker ${id}`)
@@ -11,8 +10,7 @@ export default function worker (id: number, disconnect: throng.ProcessCallback) 
     if (exited) return
     exited = true
 
-    await new Promise(r => setTimeout(r, 300)) // simulate async cleanup work
+    await new Promise((resolve) => setTimeout(resolve, 300))
     console.log(`Worker ${id} cleanup done.`)
-    disconnect()
   }
 }
