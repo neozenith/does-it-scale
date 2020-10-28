@@ -1,6 +1,5 @@
 import express from 'express';
 import log4js from 'log4js';
-import log4jsConfig from './log4js.json';
 
 import { getPrime } from './prime';
 
@@ -8,7 +7,6 @@ const app = express();
 const port = process.env.WEBAPP_PORT ?? 3000;
 
 export default async function startupApp (id: number): Promise<void> {
-  log4js.configure(log4jsConfig);
   const logger = log4js.getLogger(`app.${id}`);
   logger.info(`Started worker ${id}`);
 
