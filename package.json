@@ -1,6 +1,6 @@
 {
   "name": "hello-fargate",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "hobby experiment playing with fargate",
   "main": "dist/server.js",
   "scripts": {
