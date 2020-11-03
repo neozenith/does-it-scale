@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
       - name: nginx
-        image: 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/hello-fargate:1.0.0
+        image: 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/hello-fargate:2.0.0
         ports:
         - containerPort: 80
 ---
