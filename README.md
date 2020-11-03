@@ -14,7 +14,17 @@ brew install awscli aws-iam-authenticator eksctl
 ```bash
 # Creating a cluster typically takes 20 minutes
 eksctl create cluster -f eks/cluster-managed.yml
-# Deploy stuff here...
+# Modify existing cluster by adding new nodegroup
+eksctl create nodegroup -f eks/cluster-managed2.yml
+
+kubectl apply -f k8s/api-cloud.yml
+
+# Find loadbalancer public endpoint
+
+kubectl delete -f k8s/api-cloud.yml
+
+# Remove the nodegroup first and approve the action
+eksctl delete nodegroup -f eks/cluster-managed2.yml --wait --approve
 # Tearing down a cluster can take 5-7 minutes
 eksctl delete cluster -f eks/cluster-managed.yml --wait
 ```
@@ -24,7 +34,13 @@ eksctl delete cluster -f eks/cluster-managed.yml --wait
 ```bash
 # Creating a cluster typically takes 20 minutes
 eksctl create cluster -f eks/cluster-fargate.yml
-# Deploy stuff here...
+
+kubectl apply -f k8s/api-cloud.yml
+
+# Find loadbalancer public endpoint
+
+kubectl delete -f k8s/api-cloud.yml
+
 # Tearing down a cluster can take 5-7 minutes
 eksctl delete cluster -f eks/cluster-fargate.yml --wait
 ```

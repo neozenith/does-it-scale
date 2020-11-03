@@ -7,9 +7,9 @@ metadata:
   region: ap-southeast-2
 
 managedNodeGroups:
-  - name: managed-ng-0
+  - name: managed-ng-1
     minSize: 1
-    maxSize: 3
+    maxSize: 5
     desiredCapacity: 1
     labels: {role: worker}
     tags:
