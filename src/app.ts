@@ -6,7 +6,7 @@ import http from 'http';
 import { getPrime } from './prime';
 
 const app = express();
-const port = process.env.WEBAPP_PORT ?? 3000;
+const port = process.env.WEBAPP_PORT ?? 80;
 
 export default async function startupApp (id: number): Promise<http.Server> {
   log4js.configure(log4jsConfig);

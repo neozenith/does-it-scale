@@ -31,7 +31,7 @@ COPY --from=appBuild $INSTALL_PATH/dist $INSTALL_PATH/dist
 
 WORKDIR $INSTALL_PATH 
 
-EXPOSE 3000
+EXPOSE 80
 # NOTE: DO NOT RUN ["npm", "start"] as the ENTRYPOINT
 # It does not forward the SIGTERM and SIGINT events to Node
 # Requires dependency source-map-support to produce source-mapped stack traces

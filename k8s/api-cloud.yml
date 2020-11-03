@@ -6,15 +6,19 @@ spec:
   selector:
     matchLabels:
       app: nginx
+      env: dev
+      checks: passed
   replicas: 2 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
         app: nginx
+        env: dev
+        checks: passed
     spec:
       containers:
       - name: nginx
-        image: nginx:1.14.2
+        image: 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/hello-fargate:1.0.0
         ports:
         - containerPort: 80
 ---
@@ -32,4 +36,6 @@ spec:
     targetPort: 80
   selector:
     app: nginx
+    env: dev
+    checks: passed
 

@@ -11,7 +11,7 @@
     "test": "jest --coverage --verbose",
     "clean": "rm -rfv dist/",
     "deploy": "npm run docker-build && npm run docker-push",
-    "docker-build": ". ./.env && DOCKER_BUILD=1 docker build . -t $npm_package_name:$npm_package_version -t $npm_package_name:latest -t $ECR/$npm_package_name:$npm_package_version -t $ECR/$npm_package_name:latest",
+    "docker-build": ". ./.env && docker build . -t $npm_package_name:$npm_package_version -t $npm_package_name:latest -t $ECR/$npm_package_name:$npm_package_version -t $ECR/$npm_package_name:latest",
     "docker-push": ". ./.env && docker push $ECR/$npm_package_name:$npm_package_version",
     "ci": "npm run clean && npm run lint && npm run build && npm run test"
   },
