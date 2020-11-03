@@ -35,7 +35,7 @@
         "lines": 75,
         "statements": 75,
         "functions": 75,
-        "branches": 50
+        "branches": 66
       }
     },
     "collectCoverageFrom": [
