@@ -1,18 +1,12 @@
 {
+  "extends": "./tsconfig.base.json",
+  "references": [{ "path": "./src" }],
+
   "compilerOptions": {
+    "skipLibCheck": true
+  },
 
-    "target": "es5",
-    "module": "commonjs",
-    "declaration": true,
-    "declarationMap": true,
-    "sourceMap": true,
-    "outDir": "./dist/",
-    "resolveJsonModule": true,
-
-    
-    "strict": true,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true  
-  }
+  "files": [],
+  "exclude": ["node_modules", "dist", "copy-config.ts"]
 }
+

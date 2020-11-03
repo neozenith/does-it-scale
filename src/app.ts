@@ -1,12 +1,15 @@
 import express from 'express';
 import log4js from 'log4js';
+import log4jsConfig from './log4js.json';
+import http from 'http';
 
 import { getPrime } from './prime';
 
 const app = express();
 const port = process.env.WEBAPP_PORT ?? 3000;
 
-export default async function startupApp (id: number): Promise<void> {
+export default async function startupApp (id: number): Promise<http.Server> {
+  log4js.configure(log4jsConfig);
   const logger = log4js.getLogger(`app.${id}`);
   logger.info(`Started worker ${id}`);
 
@@ -30,7 +33,7 @@ export default async function startupApp (id: number): Promise<void> {
     res.send({ prime: nthPrime });
   });
 
-  app.listen(port, () => {
+  const httpServer = app.listen(port, () => {
     logger.info(`listening at http://localhost:${port}`);
   });
 
@@ -46,4 +49,5 @@ export default async function startupApp (id: number): Promise<void> {
     logger.info(`Worker ${id} cleanup done.`);
     process.exit();
   }
+  return httpServer;
 }
