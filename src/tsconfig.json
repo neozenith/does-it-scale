@@ -3,7 +3,7 @@
     "compilerOptions": {
         "composite": true,
         "outDir": "../dist",
-        "tsBuildInfoFile": "../.build-cache"
+        "tsBuildInfoFile": "../dist/.build-cache"
     },
     "include": [
         "**/*.ts",

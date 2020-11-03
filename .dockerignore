@@ -6,4 +6,3 @@ coverage/
 k8s/
 eks/
 test/
-.build-cache
