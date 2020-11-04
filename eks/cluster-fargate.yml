@@ -13,8 +13,9 @@ fargateProfiles:
       # scheduled onto Fargate:
       - namespace: default
         labels:
-          env: dev
-          checks: passed
+          app: myapi
       # All workloads in the "kube-system" Kubernetes namespace will be
       # scheduled onto Fargate:
       - namespace: kube-system
+
+# TODO: https://docs.aws.amazon.com/eks/latest/userguide/alb-ingress.html

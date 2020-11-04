@@ -1,23 +1,19 @@
 apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: myapi-deployment
 spec:
   selector:
     matchLabels:
-      app: nginx
-      env: dev
-      checks: passed
+      app: myapi
   replicas: 2 # tells deployment to run 2 pods matching the template
   template:
     metadata:
       labels:
-        app: nginx
-        env: dev
-        checks: passed
+        app: myapi
     spec:
       containers:
-      - name: nginx
+      - name: myapi
         image: 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/hello-fargate:2.1.0
         ports:
         - containerPort: 80
@@ -25,17 +21,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: myapi-service
   labels:
-    app: nginx
+    app: myapi
 spec:
   type: LoadBalancer
   ports:
-  - name: nginx
+  - name: myapi
     port: 80
     targetPort: 80
   selector:
-    app: nginx
-    env: dev
-    checks: passed
+    app: myapi
 
