@@ -7,8 +7,7 @@ WORKDIR $INSTALL_PATH
 
 
 # Everything needed to setup dependencies
-COPY package.json .
-COPY package-lock.json .
+COPY package*.json .
 RUN npm install
 
 # COPY rest of code

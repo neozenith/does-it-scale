@@ -6,8 +6,7 @@
   "scripts": {
     "start": "npm run docker-build && docker run --name $npm_package_name --rm -P $npm_package_name",
     "lint": "eslint",
-    "build": "tsc --build --verbose && npm run copy-config",
-    "copy-config": "ts-node copy-config.ts",
+    "build": "tsc --build --verbose",
     "test": "jest --coverage --verbose",
     "clean": "rm -rfv dist/",
     "deploy": "npm run docker-build && npm run docker-push",
