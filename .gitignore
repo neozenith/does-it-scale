@@ -3,5 +3,7 @@ dist/
 docs/
 coverage/
 .vscode/
+.metals/
 .env
 .build-cache
+*.log

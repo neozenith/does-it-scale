@@ -8,7 +8,7 @@ WORKDIR $INSTALL_PATH
 
 # Everything needed to setup dependencies
 COPY package*.json .
-RUN npm install
+RUN npm ci
 
 # COPY rest of code
 # NOTE: .dockerignore file reduces the scope of what gets copied here

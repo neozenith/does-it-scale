@@ -4,7 +4,7 @@
 ## Install Dependencies
 
 ```
-brew install awscli aws-iam-authenticator eksctl
+brew install awscli aws-iam-authenticator eksctl telepresence
 ```
 
 ## Test Clusters
@@ -17,11 +17,11 @@ eksctl create cluster -f eks/cluster-managed.yml
 # Modify existing cluster by adding new nodegroup
 eksctl create nodegroup -f eks/cluster-managed2.yml
 
-kubectl apply -f k8s/api-cloud.yml
+kubectl apply -f k8s/cloud/
 
 # Find loadbalancer public endpoint
 
-kubectl delete -f k8s/api-cloud.yml
+kubectl delete -f k8s/cloud/
 
 # Remove the nodegroup first and approve the action
 eksctl delete nodegroup -f eks/cluster-managed2.yml --wait --approve

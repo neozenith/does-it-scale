@@ -25,12 +25,18 @@ metadata:
   labels:
     app: myapi
 spec:
-  type: NodePort
+  type: LoadBalancer
   ports:
   - name: myapi
     port: 80
     targetPort: 80
-    nodePort: 32001
   selector:
     app: myapi
-
+---
+apiVersion: getambassador.io/v2
+kind: Mapping
+metadata:
+  name: api-backend
+spec:
+  prefix: /
+  service: myapi-service

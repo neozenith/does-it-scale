@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myapi
-        image: 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/hello-fargate:2.1.0
+        image: hello-fargate:2.1.0
         ports:
         - containerPort: 80
 ---
@@ -25,11 +25,10 @@ metadata:
   labels:
     app: myapi
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: myapi
     port: 80
     targetPort: 80
   selector:
     app: myapi
-
