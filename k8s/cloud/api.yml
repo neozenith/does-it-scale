@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: myapi
-  replicas: 2 # tells deployment to run 2 pods matching the template
+  replicas: 1
   template:
     metadata:
       labels:
@@ -19,11 +19,11 @@ spec:
         - containerPort: 80
         resources:
             requests:
-              memory: "0.1Gi"
-              cpu: "100m"
+              memory: "64Mi"
+              cpu: "0.5"
             limits:
-              memory: "0.5Gi"
-              cpu: "500m"
+              memory: "256Mi"
+              cpu: "1"
 ---
 apiVersion: v1
 kind: Service
@@ -32,7 +32,7 @@ metadata:
   labels:
     app: myapi
 spec:
-  type: LoadBalancer
+  type: NodePort
   ports:
   - name: myapi
     port: 80
@@ -48,3 +48,20 @@ spec:
   prefix: /
   service: myapi-service
   timeout_ms: 0
+  idle_timeout_ms: 0
+  connect_timeout_ms: 120000
+---
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler #this requires https://github.com/kubernetes-sigs/metrics-server
+metadata:
+ labels:
+   app: myapi
+ name: myapi-autoscaler
+spec:
+ scaleTargetRef:
+   apiVersion: apps/v1
+   kind: Deployment
+   name: myapi-deployment
+ minReplicas: 1
+ maxReplicas: 10
+ targetCPUUtilizationPercentage: 50

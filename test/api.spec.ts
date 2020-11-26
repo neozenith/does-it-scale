@@ -2,8 +2,10 @@ import request from 'supertest';
 import { RequestOptions, reqGenerator, restRequest } from './utils';
 
 const describeIf = (condition: unknown) => (condition ? describe : describe.skip);
-const N = 25;
+const N = 20;
 const url = (process.env.API_PORT) ? `${process.env.API_HOST}:${process.env.API_PORT}` : `${process.env.API_HOST}`;
+
+jest.setTimeout(10 * 60 * 1000);
 
 describeIf(process.env.API_HOST)(`Testing ${process.env.API_HOST}`, () => {
   describe('GET /', () => {

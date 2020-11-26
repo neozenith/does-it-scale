@@ -14,18 +14,7 @@ export default async function startupApp (id: number): Promise<http.Server> {
   logger.info(`Started worker ${id}`);
 
   // Logging middleware
-  app.use((req, res, next) => {
-    const start = new Date();
-    const logger = log4js.getLogger(`api.${id}.${req.url}`);
-    logger.debug(req.method.toUpperCase(), req.url);
-
-    res.on('close', () => {
-      const finish = new Date();
-      logger.debug(`[${res.statusCode}]`, req.method.toUpperCase(), req.url, (finish.getTime() - start.getTime()), 'ms');
-    });
-
-    next();
-  });
+  app.use(requestLoggerMiddleware(id));
 
   app.get('/', (req, res) => {
     const n = Math.round(Math.random() * 10000 + 1000);
@@ -50,4 +39,18 @@ export default async function startupApp (id: number): Promise<http.Server> {
     process.exit();
   }
   return httpServer;
+}
+
+function requestLoggerMiddleware (id: number) {
+  return (req, res, next) => {
+    const start = new Date();
+    const logger = log4js.getLogger(`api.${id}.${req.url}`);
+    logger.debug(req.method.toUpperCase(), req.url);
+
+    res.on('close', () => {
+      const finish = new Date();
+      logger.debug(`[${res.statusCode}]`, req.method.toUpperCase(), req.url, (finish.getTime() - start.getTime()), 'ms');
+    });
+    next();
+  };
 }
