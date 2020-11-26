@@ -1,6 +1,7 @@
 import http from 'http';
 import request from 'supertest';
 import startupApp from '../src/app';
+
 let server: http.Server;
 
 beforeAll(async () => {

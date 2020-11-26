@@ -17,6 +17,13 @@ spec:
         image: 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/hello-fargate:2.1.0
         ports:
         - containerPort: 80
+        resources:
+            requests:
+              memory: "0.1Gi"
+              cpu: "100m"
+            limits:
+              memory: "0.5Gi"
+              cpu: "500m"
 ---
 apiVersion: v1
 kind: Service
@@ -40,3 +47,4 @@ metadata:
 spec:
   prefix: /
   service: myapi-service
+  timeout_ms: 0
