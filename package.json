@@ -10,13 +10,18 @@
     "build": "tsc --build --verbose",
     "test": "jest --coverage --verbose",
     "clean": "rm -rfv dist/",
+
     "deploy": "npm run docker-build && npm run docker-push",
     "docker-build": ". ./.env && docker build . -t $npm_package_name:$npm_package_version -t $npm_package_name:latest -t $ECR/$npm_package_name:$npm_package_version -t $ECR/$npm_package_name:latest",
     "docker-push": ". ./.env && docker push $ECR/$npm_package_name:$npm_package_version",
+    "ecr-login": ". ./.env && aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ECR_HOST",
+
+    "common": "echo \"===============FETCH COMMON COMPONENTS SCRIPTS ===============\"",
     "get-common": "npm run get-ambassador-crds && npm run get-ambassador-rbac && npm run get-metrics-server",
     "get-ambassador-crds": "curl -sL https://www.getambassador.io/yaml/ambassador/ambassador-crds.yaml > k8s/common/ambassador-crds.yml",
     "get-ambassador-rbac": "curl -sL https://www.getambassador.io/yaml/ambassador/ambassador-rbac.yaml > k8s/common/ambassador-rbac.yml",
     "get-metrics-server": "curl -sL https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml > k8s/common/components.yml",
+    "get-ca": "curl -sL https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml > k8s/common/cluster-autscaler-autodiscover.yml",
 
     "dkr": "echo \"===============DOCKER SCRIPTS ===============\"",
     "dkr-start": "npm run docker-build && docker run --name $npm_package_name -d --rm -p 3000:80 $npm_package_name",
@@ -44,6 +49,7 @@
     "eks-stop-common": "kubectl delete -f k8s/common/ && kubectl wait --for=delete pods -l service=ambassador --timeout=120s",
     "eks-stop-cluster": "eksctl delete cluster -f eks/cluster-managed.yml --wait",
     "eks-stop": "npm run eks-stop-cloud && npm run eks-stop-common && npm run eks-stop-cluster",
+
     "ci": "echo \"===============CONTINUOUS INTEGRATION SCRIPTS===============\"",
     "ci-app": "npm run clean && npm run lint && npm run build && npm run test",
     "ci-dkr": "npm run dkr-start && npm run dkr-test; npm run dkr-stop",

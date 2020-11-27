@@ -3,7 +3,7 @@ apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 
 metadata:
-  name: managed-cluster
+  name: my-managed-cluster
   region: ap-southeast-2
 
 managedNodeGroups:
@@ -11,6 +11,12 @@ managedNodeGroups:
     minSize: 1
     maxSize: 3
     desiredCapacity: 1
-    labels: {role: worker}
+    labels: 
+      role: worker
+      app: myapi
     tags:
       nodegroup-role: worker
+      k8s.io/cluster-autoscaler/enabled: "true"
+      k8s.io/cluster-autoscaler/my-managed-cluster: owned
+      k8s.io/cluster-autoscaler/node-template/label/app: myapi
+      
