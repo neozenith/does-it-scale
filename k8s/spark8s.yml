@@ -1,0 +1,171 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spark-driver-config
+data:
+  SPARK_MODE: "master"
+  SPARK_RPC_AUTHENTICATION_ENABLED: "no"
+  SPARK_RPC_ENCRYPTION_ENABLED: "no"
+  SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: "no"
+  SPARK_SSL_ENABLED: "no"
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: spark-worker-config
+data:
+  SPARK_MODE: "worker"
+  SPARK_RPC_AUTHENTICATION_ENABLED: "no"
+  SPARK_RPC_ENCRYPTION_ENABLED: "no"
+  SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED: "no"
+  SPARK_SSL_ENABLED: "no"
+  SPARK_MASTER_URL: "spark://spark-driver:7077"
+  SPARK_WORKER_MEMORY: "1G"
+  SPARK_WORKER_CORES: "1"
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: spark-driver
+spec:
+  selector:
+    matchLabels:
+      app: spark
+      role: driver
+  replicas: 1 
+  template:
+    metadata:
+      labels:
+        app: spark
+        role: driver
+    spec:
+      containers:
+      - name: spark-driver
+        image: docker.io/bitnami/spark:3-debian-10
+        ports:
+        - containerPort: 8080
+        - containerPort: 4040
+        - containerPort: 7077
+        resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+        env:
+        - name: SPARK_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: spark-driver-config
+              key: SPARK_MODE
+        - name: SPARK_RPC_AUTHENTICATION_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: spark-driver-config
+              key: SPARK_RPC_AUTHENTICATION_ENABLED
+        - name: SPARK_RPC_ENCRYPTION_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: spark-driver-config
+              key: SPARK_RPC_ENCRYPTION_ENABLED
+        - name: SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: spark-driver-config
+              key: SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED
+        - name: SPARK_SSL_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: spark-driver-config
+              key: SPARK_SSL_ENABLED
+---
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: spark-worker
+spec:
+  selector:
+    matchLabels:
+      app: spark
+      role: worker
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: spark
+        role: worker
+    spec:
+      containers:
+      - name: spark-worker
+        image: docker.io/bitnami/spark:3-debian-10
+        ports:
+        - containerPort: 8080
+        resources:
+            requests:
+              memory: "1Gi"
+              cpu: "1"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
+        env:
+        - name: SPARK_MODE
+          valueFrom:
+            configMapKeyRef:
+              name: spark-worker-config
+              key: SPARK_MODE
+        - name: SPARK_RPC_AUTHENTICATION_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: spark-worker-config
+              key: SPARK_RPC_AUTHENTICATION_ENABLED
+        - name: SPARK_RPC_ENCRYPTION_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: spark-worker-config
+              key: SPARK_RPC_ENCRYPTION_ENABLED
+        - name: SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: spark-worker-config
+              key: SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED
+        - name: SPARK_SSL_ENABLED
+          valueFrom:
+            configMapKeyRef:
+              name: spark-worker-config
+              key: SPARK_SSL_ENABLED
+        - name: SPARK_MASTER_URL
+          valueFrom:
+            configMapKeyRef:
+              name: spark-worker-config
+              key: SPARK_MASTER_URL
+        - name: SPARK_WORKER_CORES
+          valueFrom:
+            configMapKeyRef:
+              name: spark-worker-config
+              key: SPARK_WORKER_CORES
+        - name: SPARK_WORKER_MEMORY
+          valueFrom:
+            configMapKeyRef:
+              name: spark-worker-config
+              key: SPARK_WORKER_MEMORY
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: spark-driver
+  labels:
+    app: spark
+    role: service
+spec:
+  ports:
+  - name: http
+    port: 8080
+    targetPort: 8080
+  - name: spark
+    port: 7077
+    targetPort: 7077
+  selector:
+    app: spark
+    role: driver
