@@ -3,22 +3,38 @@
 This project acts as a POC for a task I needed at work but also takes the idea of a course I took as CompSci Honours where they used a base64 encoder/decoder instead.
 
 [Step 1](#nodejs-typescript-express):
+
+<img height=50px src="diagrams/DoesItScale-1.png" />
+
  - DEV: Start with a simple function. We will calculate the Nth prime number.
+ - DEV: Now wrap it in an API to make it accessible across a network as a server
  - TEST: Write some tests for it.
 
 [Step 2](#nodejs-typescript-express):
- - DEV: Now wrap it in an API to make it accessible across a network as a server
+
+<img height=150px src="diagrams/DoesItScale-2.png" />
+
+ - DEV: The API should exploit all the CPU parallelism that it can with workers
  - TEST: Write tests for the API
 
 [Step 3](#docker-container):
+
+<img height=180px src="diagrams/DoesItScale-3.png" />
+
  - DEV: Package it up for Deployment via a container
  - TEST: Write integration tests to test the container
 
 [Step 4](#local-kubernetes):
+
+<img height=400px src="diagrams/DoesItScale-4.png" />
+
  - DEV: We want the container to be orchestrated with Kubernetes for better fault tolerance and sit behind an API gateway. 
  - TEST: Write integration tests to test our service through the API gateway that multiple instances load balance the work.
 
 [Step 5](#deploy-to-aws-eks):
+
+<img height=600px src="diagrams/DoesItScale-5.png" />
+
  - DEV: Deploy it to a cloud provider and configure autoscaling of resources
  - TEST: Test our service prvisions more resources under load and cleans up unused resources.
 
@@ -51,6 +67,8 @@ To get this information you'll want to follow the [Creating an ECR Repository Us
 
 ## NodesJS-Typescript-Express
 
+<img height=150px src="diagrams/DoesItScale-2.png" />
+
 ```bash
 npm t
 ```
@@ -60,6 +78,8 @@ This unit tests the function as well as the Express HTTP server by using `supert
 ---
 
 ## Docker Container
+
+<img height=200px src="diagrams/DoesItScale-3.png" />
 
 ```bash
 npm run dkr-start
@@ -77,6 +97,8 @@ Finally we clean up by stopping the container.
 
 
 ## Local Kubernetes
+
+<img height=400px src="diagrams/DoesItScale-4.png" />
 
 ```bash
 npm run k8s-start
@@ -100,6 +122,8 @@ Finally we tear it all down in the correct order.
 ---
 
 ## Deploy to AWS EKS
+
+<img height=600px src="diagrams/DoesItScale-5.png" />
 
 ### Push image to ECR
 

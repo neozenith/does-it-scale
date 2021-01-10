@@ -7,3 +7,4 @@ coverage/
 .env
 .build-cache
 *.log
+**/.DS_Store
