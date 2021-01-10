@@ -7,6 +7,6 @@
   },
 
   "files": [],
-  "exclude": ["node_modules", "dist", "copy-config.ts"]
+  "exclude": ["node_modules", "dist"]
 }
 

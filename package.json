@@ -1,6 +1,6 @@
 {
-  "name": "hello-fargate",
-  "version": "3.0.0",
+  "name": "does-it-scale",
+  "version": "4.0.0",
   "description": "hobby experiment playing with fargate",
   "main": "dist/server.js",
   "scripts": {

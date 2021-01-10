@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myapi
-        image: 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/hello-fargate:2.1.0
+        image: 979037402244.dkr.ecr.us-west-2.amazonaws.com/joshpeak/does-it-scale:4.0.0
         ports:
         - containerPort: 80
         resources:

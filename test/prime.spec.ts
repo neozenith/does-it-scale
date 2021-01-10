@@ -15,10 +15,10 @@ it('should return first number', () => {
   expect(result).toEqual(2);
 });
 
-it('should return a number', () => {
+it('should throw an error', () => {
   let err: Error | undefined;
   try {
-    const result = getPrime(0);
+    getPrime(0);
   } catch (error) {
     err = error;
   }
