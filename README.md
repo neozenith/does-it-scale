@@ -176,3 +176,8 @@ aws eks list-clusters --region us-west-2
 
 aws eks --region us-west-2 update-kubeconfig --name mycluster
 ```
+
+# Resources:
+ - https://www.oreilly.com/library/view/kubernetes-up-and/9781492046523/
+ - https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
+ - https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html
