@@ -1,7 +1,7 @@
 {
   "name": "does-it-scale",
   "version": "4.0.0",
-  "description": "hobby experiment playing with fargate",
+  "description": "hobby experiment playing with EKS",
   "main": "dist/server.js",
   "scripts": {
     "start": "npm run docker-build && docker run --name $npm_package_name --rm -P $npm_package_name",
