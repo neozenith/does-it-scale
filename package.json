@@ -40,6 +40,7 @@
     
     "eks": "echo \"===============EKS SCRIPTS===============\"",
     "eks-start-cluster": "eksctl create cluster -f eks/cluster-managed.yml",
+    "eks-iam-get-role": "aws iam list-roles | xargs -0 node -e \"console.log(JSON.parse(process.argv[1])['Roles'].filter((r)=>(r['RoleName'].startsWith('eksctl-my-managed-cluster-nodegro')))[0]['RoleName'])\"",
     "eks-deploy": "npm run deploy",
     "eks-start-common": "kubectl apply -f k8s/common/ && kubectl wait --for=condition=ready pods -l service=ambassador --timeout=90s",
     "eks-start-cloud": "kubectl apply -f k8s/cloud/ && kubectl wait --for=condition=ready pods -l app=myapi --timeout=90s",

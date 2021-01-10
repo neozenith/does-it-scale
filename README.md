@@ -101,6 +101,8 @@ Finally we tear it all down in the correct order.
 
 ## Deploy to AWS EKS
 
+### Push image to ECR
+
 You will need a `.env` file as described in [Quickstart](#quickstart).
 
 ```bash
@@ -111,6 +113,8 @@ npm run docker-push
 
 Now our image is available on ECR for EKS to pull in as part of our build definition.
 
+### Create empty cluster
+
 ```bash
 # WARNING This step takes about 20 minutes.
 npm run eks-start-cluster
@@ -119,12 +123,27 @@ npm run eks-start-cluster
 
 This step uses `eks/cluster-managed.yml` definition of EKS resources for the `eksctl` CLI tool to setup our cluster.
 
+### Update IAM Service Role
+
+```bash
+export EKS_IAM_ROLE=$(npm run --silent eks-iam-get-role)
+
+aws iam put-role-policy \
+  --role-name $EKS_IAM_ROLE \
+  --policy-name eks-autoscaler \
+  --policy-document file://iam/iam-cluster-autoscaler-servicerole-policy.json
+```
+
+### Apply Deployments
+
 ```bash
 npm run eks-start-common
 npm run eks-start-cloud
 ```
 
 These will deploy our definitions.
+
+### Run test suite
 
 ```bash
 npm run eks-test
@@ -139,12 +158,20 @@ prefers to keep it warm long enough to receive subsequent spikes of resource use
 
 Recap: quick scale up, slow to scale down to keep resources warm jsut in case.
 
+
+### Delete Deployments
+
 ```bash
 npm run eks-stop-cloud
 npm run eks-stop-common
+aws iam delete-role-policy \
+  --role-name $EKS_IAM_ROLE \
+  --policy-name eks-autoscaler
 ```
 
 Tear down our definitions.
+
+### Delete Cluster
 
 ```bash
 # This can take 10 minutes to tear down.
