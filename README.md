@@ -229,6 +229,9 @@ aws eks --region us-west-2 update-kubeconfig --name mycluster
 ```
 
 # Resources:
- - https://www.oreilly.com/library/view/kubernetes-up-and/9781492046523/
+ - https://www.amazon.com.au/Kubernetes-Running-Dive-Future-Infrastructure-ebook/dp/B07YP1XSZ9
  - https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
  - https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html
+ - https://www.amazon.com.au/Distributed-Systems-Node-js-Building-Enterprise-Ready-ebook/dp/B08MTJ4H6L/
+ - https://k8slens.dev/
+ - https://eksctl.io/
