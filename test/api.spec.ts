@@ -2,7 +2,7 @@ import request from 'supertest';
 import { RequestOptions, reqGenerator, restRequest } from './utils';
 
 const describeIf = (condition: unknown) => (condition ? describe : describe.skip);
-const N = 10;
+const N = 100;
 const url = (process.env.API_PORT) ? `${process.env.API_HOST}:${process.env.API_PORT}` : `${process.env.API_HOST}`;
 
 jest.setTimeout(10 * 60 * 1000);

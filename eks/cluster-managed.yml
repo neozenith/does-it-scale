@@ -9,9 +9,9 @@ metadata:
 managedNodeGroups:
   - name: managed-ng-0
     minSize: 1
-    maxSize: 3
+    maxSize: 10
     desiredCapacity: 1
-    labels: 
+    labels:
       role: worker
       app: myapi
     tags:
@@ -19,4 +19,4 @@ managedNodeGroups:
       k8s.io/cluster-autoscaler/enabled: "true"
       k8s.io/cluster-autoscaler/my-managed-cluster: owned
       k8s.io/cluster-autoscaler/node-template/label/app: myapi
-      
+

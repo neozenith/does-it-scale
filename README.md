@@ -1,4 +1,4 @@
-# Does it scale??? 
+# Does it scale???
 
 This project acts as a POC for a task I needed at work but also takes the idea of a course I took as CompSci Honours where they used a base64 encoder/decoder instead.
 
@@ -28,7 +28,7 @@ This project acts as a POC for a task I needed at work but also takes the idea o
 
 <img height=400px src="diagrams/DoesItScale-4.png" />
 
- - DEV: We want the container to be orchestrated with Kubernetes for better fault tolerance and sit behind an API gateway. 
+ - DEV: We want the container to be orchestrated with Kubernetes for better fault tolerance and sit behind an API gateway.
  - TEST: Write integration tests to test our service through the API gateway that multiple instances load balance the work.
 
 [Step 5](#deploy-to-aws-eks):
@@ -50,6 +50,13 @@ git clone https://github.com/neozenith/does-it-scale
 cd does-it-scale
 npm i
 npm t
+```
+
+You will also need to install some other tools:
+
+```sh
+brew install datawire/blackbird/telepresence
+brew install kubectl eksctl aws-cli
 ```
 
 You will also need to create a `.env` file with the following content:
@@ -151,11 +158,30 @@ This step uses `eks/cluster-managed.yml` definition of EKS resources for the `ek
 
 ```bash
 export EKS_IAM_ROLE=$(npm run --silent eks-iam-get-role)
-
+echo $EKS_IAM_ROLE
 aws iam put-role-policy \
   --role-name $EKS_IAM_ROLE \
   --policy-name eks-autoscaler \
   --policy-document file://iam/iam-cluster-autoscaler-servicerole-policy.json
+
+export EKS_IAM_SERVICE_ROLE=$(npm run --silent eks-iam-get-service-role)
+echo $EKS_IAM_SERVICE_ROLE
+aws iam put-role-policy \
+  --role-name $EKS_IAM_SERVICE_ROLE \
+  --policy-name eks-autoscaler \
+  --policy-document file://iam/iam-cluster-autoscaler-servicerole-policy.json
+```
+
+To tidy it up later:
+
+```sh
+aws iam delete-role-policy \
+  --role-name $EKS_IAM_ROLE \
+  --policy-name eks-autoscaler
+
+aws iam delete-role-policy \
+  --role-name $EKS_IAM_SERVICE_ROLE \
+  --policy-name eks-autoscaler
 ```
 
 ### Apply Deployments
@@ -177,7 +203,7 @@ Finally.... this reuses our API test from [Docker Container](#docker-container) 
 
 The `metrics-server` for pod autoscaling monitors metrics on a 5s interval but will invoke scaling actions every 30s if necessary but can take 1-5 minutes to scale down as it prefers to keep pods warm rather than aggresively scaling down.
 
-The `cluster-auto-scaler` needs special privileges for it's service account to scan the EC2 resources and schedule node scaling. It can take 10 minutes to naturally cool off and scale down a node as it 
+The `cluster-auto-scaler` needs special privileges for it's service account to scan the EC2 resources and schedule node scaling. It can take 10 minutes to naturally cool off and scale down a node as it
 prefers to keep it warm long enough to receive subsequent spikes of resource use.
 
 Recap: quick scale up, slow to scale down to keep resources warm jsut in case.

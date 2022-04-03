@@ -1,9 +1,9 @@
 # Build stage 1
 # Install dependencies and build the code.
-FROM node:14-alpine AS appBuild
+FROM node:17-alpine AS appBuild
 ENV INSTALL_PATH /usr/src/app
 RUN mkdir -p $INSTALL_PATH
-WORKDIR $INSTALL_PATH 
+WORKDIR $INSTALL_PATH
 
 
 # Everything needed to setup dependencies
@@ -12,7 +12,7 @@ RUN npm ci
 
 # COPY rest of code
 # NOTE: .dockerignore file reduces the scope of what gets copied here
-COPY . . 
+COPY . .
 
 # NOTE: What data REMAINS after a step becomes a cached layer.
 # So cleaning dev dependencies reduces total image size.
@@ -22,13 +22,13 @@ RUN npm run build && npm prune --production
 # RUN ls -lah
 # RUN du -h -d 1 .
 
-FROM node:14-alpine AS production
+FROM node:17-alpine AS production
 ENV INSTALL_PATH /usr/src/app
 RUN mkdir -p $INSTALL_PATH
 COPY --from=appBuild $INSTALL_PATH/node_modules $INSTALL_PATH/node_modules
 COPY --from=appBuild $INSTALL_PATH/dist $INSTALL_PATH/dist
 
-WORKDIR $INSTALL_PATH 
+WORKDIR $INSTALL_PATH
 
 EXPOSE 80
 # NOTE: DO NOT RUN ["npm", "start"] as the ENTRYPOINT

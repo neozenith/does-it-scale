@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: myapi
-  replicas: 3 
+  replicas: 1
   template:
     metadata:
       labels:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: myapi
-        image: does-it-scale:4.0.0
+        image: does-it-scale:5.0.0
         ports:
         - containerPort: 80
         resources:
