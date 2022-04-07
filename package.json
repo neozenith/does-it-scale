@@ -11,24 +11,20 @@
     "build": "tsc --build --verbose",
     "test": "jest --coverage --verbose",
     "clean": "rm -rfv dist/",
-
     "deploy": "npm run docker-build && npm run docker-push",
     "docker-build": ". ./.env && docker build . -t $npm_package_name:$npm_package_version -t $npm_package_name:latest -t $ECR/$npm_package_name:$npm_package_version -t $ECR/$npm_package_name:latest",
     "docker-push": ". ./.env && docker push $ECR/$npm_package_name:$npm_package_version",
     "ecr-login": ". ./.env && aws ecr get-login-password --region $ECR_REGION | docker login --username AWS --password-stdin $ECR_HOST",
-
     "common": "echo \"===============FETCH COMMON COMPONENTS SCRIPTS ===============\"",
     "get-common": "npm run get-ambassador-crds && npm run get-ambassador-rbac && npm run get-metrics-server && npm run get-ca",
     "get-ambassador-crds": "curl -sL https://www.getambassador.io/yaml/ambassador/ambassador-crds.yaml > k8s/common/02_ambassador_proxy/ambassador-crds.yml",
     "get-ambassador-rbac": "curl -sL https://www.getambassador.io/yaml/ambassador/ambassador-rbac.yaml > k8s/common/02_ambassador_proxy/ambassador-rbac.yml",
     "get-metrics-server": "curl -sL https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml > k8s/common/00_metrics_server/components.yml",
     "get-ca": "curl -sL https://raw.githubusercontent.com/kubernetes/autoscaler/master/cluster-autoscaler/cloudprovider/aws/examples/cluster-autoscaler-autodiscover.yaml > k8s/common/01_cluster_autoscaler/cluster-autscaler-autodiscover.yml",
-
     "dkr": "echo \"===============DOCKER SCRIPTS ===============\"",
     "dkr-start": "npm run docker-build && docker run --name $npm_package_name -d --rm -p 3000:80 $npm_package_name",
     "dkr-test": "API_HOST=localhost API_PORT=3000 jest --verbose -i test/api.spec.ts",
     "dkr-stop": "docker stop $npm_package_name",
-
     "k8s": "echo \"===============KUBERNETES SCRIPTS===============\"",
     "k8s-deploy": "npm run docker-build",
     "k8s-start-common": "kubectl --context='docker-desktop' apply -f k8s/common/ && kubectl --context='docker-desktop' wait --for=condition=ready pods -l service=ambassador --timeout=300s",
@@ -38,7 +34,6 @@
     "k8s-stop": "npm run k8s-stop-local && npm run k8s-stop-common",
     "k8s-stop-local": "kubectl --context='docker-desktop' delete -f k8s/local/ --wait",
     "k8s-stop-common": "kubectl --context='docker-desktop' delete -f k8s/common/ --wait && kubectl --context='docker-desktop' wait --for=delete pods -l service=ambassador --timeout=120s",
-
     "eks": "echo \"===============EKS SCRIPTS===============\"",
     "eks-start-cluster": "eksctl create cluster -f eks/cluster-managed.yml",
     "eks-iam-get-role": "aws iam list-roles | xargs -0 node -e \"console.log(JSON.parse(process.argv[1])['Roles'].filter((r)=>(r['RoleName'].startsWith('eksctl-my-managed-cluster-nodegro')))[0]['RoleName'])\"",
@@ -54,12 +49,12 @@
     "eks-stop-ca": "kubectl delete -f k8s/common/00_metrics_server/ -f k8s/common/01_cluster_autoscaler/",
     "eks-stop-cluster": "eksctl delete cluster -f eks/cluster-managed.yml --wait",
     "eks-stop": "npm run eks-stop-cloud && npm run eks-stop-common && npm run eks-stop-cluster",
-
     "ci": "echo \"===============CONTINUOUS INTEGRATION SCRIPTS===============\"",
     "ci-app": "npm run clean && npm run lint && npm run build && npm run test",
     "ci-dkr": "npm run dkr-start && npm run dkr-test; npm run dkr-stop",
     "ci-k8s": "npm run k8s-start && npm run k8s-test; npm run k8s-stop",
-    "ci-eks": "npm run eks-start && npm run eks-test; npm run eks-stop"
+    "ci-eks": "npm run eks-start && npm run eks-test; npm run eks-stop",
+    "monitor": "ts-node scripts/monitor.ts"
   },
   "jest": {
     "verbose": true,
@@ -97,6 +92,7 @@
   "author": "Josh Peak <neozenith.dev@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@influxdata/influxdb-client": "^1.24.0",
     "@types/express": "^4.17.8",
     "@types/jest": "^26.0.15",
     "@types/log4js": "^2.3.5",
@@ -120,7 +116,7 @@
     "shelljs": "^0.8.4",
     "supertest": "^6.0.0",
     "ts-jest": "^26.4.3",
-    "ts-node": "^9.0.0",
+    "ts-node": "^9.1.1",
     "typescript": "^4.0.5"
   },
   "dependencies": {

@@ -8,3 +8,5 @@ coverage/
 .build-cache
 *.log
 **/.DS_Store
+dashboard/config
+dashboard/data

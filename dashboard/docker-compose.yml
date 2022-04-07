@@ -1,0 +1,22 @@
+services:
+  # https://hub.docker.com/_/influxdb
+  influxdb:
+    image: influxdb:latest
+    ports:
+      - '8086:8086'
+    volumes:
+      - ./data:/var/lib/influxdb2
+      - ./config:/etc/influxdb2
+    environment:
+      - DOCKER_INFLUXDB_INIT_MODE=setup
+      - DOCKER_INFLUXDB_INIT_USERNAME=adminuser
+      - DOCKER_INFLUXDB_INIT_PASSWORD=adminpassword
+      - DOCKER_INFLUXDB_INIT_ORG=myorg
+      - DOCKER_INFLUXDB_INIT_BUCKET=mybucket
+      - DOCKER_INFLUXDB_INIT_ADMIN_TOKEN=mysupersecretadmintoken
+  # https://hub.docker.com/r/grafana/grafana
+  # https://grafana.com/docs/grafana/latest/installation/docker/
+  grafana:
+    image: grafana/grafana-oss:latest
+    ports:
+      - '3000:3000'
