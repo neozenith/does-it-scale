@@ -262,6 +262,7 @@ aws eks --region us-west-2 update-kubeconfig --name mycluster
 
 # Resources:
  - https://www.amazon.com.au/Kubernetes-Running-Dive-Future-Infrastructure-ebook/dp/B07YP1XSZ9
+ - InfluxData: Intro to Kubernetes - https://www.youtube.com/watch?v=NsP3uP1gTPs&list=PLYt2jfZorkDoJeVLPhsPhbLvjbHERM1CW&index=3
  - https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale/
  - https://docs.aws.amazon.com/eks/latest/userguide/cluster-autoscaler.html
  - https://www.amazon.com.au/Distributed-Systems-Node-js-Building-Enterprise-Ready-ebook/dp/B08MTJ4H6L/
