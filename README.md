@@ -2,6 +2,12 @@
 
 This project acts as a POC for a task I needed at work but also takes the idea of a course I took as CompSci Honours where they used a base64 encoder/decoder instead.
 
+## Autoscaling timing
+
+<img height=200px src="diagrams/autoscale.png" />
+
+## Steps to scaling up
+
 [Step 1](#nodejs-typescript-express):
 
 <img height=50px src="diagrams/DoesItScale-1.png" />
