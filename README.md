@@ -4,7 +4,7 @@ This project acts as a POC for a task I needed at work but also takes the idea o
 
 ## Autoscaling timing
 
-<img height=200px src="diagrams/autoscale.png" />
+<img height=400px src="diagrams/autoscale.png" />
 
 ## Steps to scaling up
 
