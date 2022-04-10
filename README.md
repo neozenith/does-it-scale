@@ -261,3 +261,8 @@ aws eks --region us-west-2 update-kubeconfig --name mycluster
  - https://www.amazon.com.au/Distributed-Systems-Node-js-Building-Enterprise-Ready-ebook/dp/B08MTJ4H6L/
  - https://k8slens.dev/
  - https://eksctl.io/
+
+# Definitions
+ - https://kubernetes.io/docs/concepts/workloads/pods/#using-pods
+ - https://kubernetes.io/docs/concepts/workloads/controllers/replicaset/#example
+ - https://kubernetes.io/docs/concepts/workloads/controllers/deployment/#creating-a-deployment
